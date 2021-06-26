@@ -66,11 +66,7 @@ def openfiledirectory():
         r_label.config(text = text)
         img = cv2.imread(fname)
         cv2.imshow("Selected Image",img)
-    #img = Image.open(fname)
-    #img.thumbnail((800, 600))
-    #img = ImageTk.PhotoImage(img)
-    #label1.config(image=img)
-    #label1.image = img
+    
 
 def openvideodirectory():
     global video
@@ -117,14 +113,11 @@ def showOutputOnInterfce(head,number):
 
 def startmodel(img):
     
-    #webcam = True
-    #cap = cv2.VideoCapture(0)
-    #cap = cv2.imread("E:/3.2/3200 Project/yolov4/video_2021-05-20_14-03-44.mp4")
-    #load yolo
     
-    net = cv2.dnn.readNet("E:/3.2/3200 Project/yolov4/output/plate weight file/yolov4-obj_6000.weights" , "yolov4-custom.cfg")
     
-    char_net = cv2.dnn.readNet("E:/3.2/3200 Project/yolov4/yolov4-obj_50000_char_final.weights" , "yolov4-obj_char_final.cfg")
+    net = cv2.dnn.readNet("yolov4-obj.weights" , "yolov4-custom.cfg")
+    
+    char_net = cv2.dnn.readNet("yolov4-obj_char_final.weights" , "yolov4-obj_char_final.cfg")
     
     #Name custom object
     classes = ["number_plate"]
@@ -134,9 +127,7 @@ def startmodel(img):
     num_class = ["0","1","2","3","4","5","6","7","8","9"]
     
     
-    #Images path
-    #images_path = glob.glob(r"E:/3.2/3200 Project/yolov4/output/test//*.jpg")
-    #images_path = glob.glob(r"C:/Users/Nahin/OneDrive/Desktop/photo_2021-06-19_20-04-38.jpg")
+    
     
     layer_names = net.getLayerNames()
     output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
@@ -147,23 +138,10 @@ def startmodel(img):
     char_output_layers = [char_layer_names[i[0] - 1] for i in char_net.getUnconnectedOutLayers()]
     char_colors = np.random.uniform(0, 255, size=(len(char_classes), 3))
     
-    #insert here the path of your images
-    #random.shuffle(images_path)
     
-    kk=0
-    #loop throgh all the  images
-    #for img_path in images_path:
-    #while True:
-      #_,img = cap.read()
-      #cv2.imshow("car",img)
-    kk=kk+1
-    #loading image
-    #img_name = img_path[55:-4]
-
-    #img = cv2.imread(img_path)
-    #img = cv2.imread(fname)
-    #img = cv2.resize(img, None , fx=0.4, fy=0.4)
-    #cv2.imshow("car",img)
+    
+    
+    
     height, width, channels = img.shape
 
     #detecting objects
@@ -224,9 +202,7 @@ def startmodel(img):
           new_img = img[y:y+h, x:x+w]
           if new_img.size == 0:
               continue
-          #print(img)
-          ###########################################
-          #new_img = imutils.resize(new_img, width=416, height=416, inter=cv2.INTER_CUBIC)
+          
         
         
           cv2.rectangle(img, (x,y), (x+w,y+h), color, 2)
@@ -236,15 +212,10 @@ def startmodel(img):
           cv2.waitKey(1)
         
         
-          k=k+1
-          #cv2.imwrite("E:/3.2/3200 Project/yolov4/output/data final/New image plate/"+img_name+"_"+str(kk)+"_"+str(k)+".jpg",new_img)
-          #cv2.imwrite("C:/Users/Nahin/OneDrive/Desktop/New folder (2)/New folder (3)/"+img_name+"_"+str(kk)+"_"+str(k)+".jpg",new_img)
-          #print("write done")
-     
            
           #Charecter part
           #loading image
-          #img_name = img_path[43:-4]
+          
           char_img = new_img
           char_img = cv2.resize(char_img, None , fx=1.0, fy=1.0)
           char_height, char_width, char_channels = char_img.shape
@@ -271,7 +242,7 @@ def startmodel(img):
               char_confidence = char_scores[char_class_id]
               if char_confidence > 0.9:
                 #object detection
-                #print(class_id)
+                
                 
                 char_center_x = int (char_detection[0] * char_width)
                 char_center_y = int (char_detection[1] * char_height)
@@ -295,7 +266,7 @@ def startmodel(img):
         
         
           char_font = cv2.FONT_HERSHEY_PLAIN
-          k=0
+          
           char_final_obj = []
           for i in range(len(char_boxes)):
             if i in char_indexes:
@@ -321,12 +292,7 @@ def startmodel(img):
                 #print(img)
                 char_new_img = imutils.resize(char_new_img, width=700, height=400, inter=cv2.INTER_CUBIC)
                 
-                
-                
-                k=k+1
-                #cv2.imwrite("C:/Users/Nahin/OneDrive/Desktop/New folder (2)/New folder (3)/"+str(kk)+"_"+str(k)+char_label+"char.jpg",char_new_img)
-                #print("write done " + char_label)
-                
+        
                 cv2.rectangle(char_img, (x,y), (x+w,y+h), color, 2)
                 cv2.putText(char_img, char_label+" "+str(char_confi)[0:4], (x,y), font, 1, (0, 0, 255), 1)
                 
@@ -339,8 +305,7 @@ def startmodel(img):
           high = " "
           for j in char_final_obj:
               char_index_no = j[4]
-              #print("index "+str(index_no))
-              #print(char_classes[char_class_ids[char_index_no]])
+              
               
               if str(char_classes[char_class_ids[char_index_no]]) in num_class:
                   
@@ -359,17 +324,7 @@ def startmodel(img):
               showOutputOnPopUp(high,number)
           else:
               showOutputOnInterfce(high,number)
-
-  
-    #cv2.imshow("car",img)        
-                       
-    #key = cv2.waitKey(1) & 0xFF
-    #if key == ord('q'):
-     #   break      
-
         
-    #cv2.destroyAllWindows()
-  #cap.release()        
 
 
 
