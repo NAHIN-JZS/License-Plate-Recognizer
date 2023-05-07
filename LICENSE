@@ -1,3 +1,14 @@
+### Must cite the paper https://link.springer.com/chapter/10.1007/978-981-16-6636-0_8
+
+@inproceedings{hossain2022automatic,
+  title={Automatic License Plate Recognition System for Bangladeshi Vehicles Using Deep Neural Network},
+  author={Hossain, Syed Nahin and Hassan, Md Zahim and Masba, Md Masum Al},
+  booktitle={Proceedings of the International Conference on Big Data, IoT, and Machine Learning: BIM 2021},
+  pages={91--102},
+  year={2022},
+  organization={Springer}
+}
+
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
